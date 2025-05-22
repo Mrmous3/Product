@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Produk Futuristik</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #0f172a, #000);
+      color: #00ffcc;
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background: #0f172a;
+      border-bottom: 1px solid #00ffcc;
+    }
+
+    .navbar-toggler {
+      border: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' fill='%2300ffcc' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+
+    .navbar-nav .nav-link {
+      color: #00ffcc !important;
+      font-weight: bold;
+    }
+
+    .product-card {
+      background: #1e293b;
+      border: 2px solid #00ffcc;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #00ffcc33;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 30px #00ffcc88;
+    }
+
+    .btn-futuristic {
+      background: transparent;
+      border: 1px solid #00ffcc;
+      color: #00ffcc;
+      transition: all 0.3s ease;
+    }
+
+    .btn-futuristic:hover {
+      background: #00ffcc;
+      color: #000;
+    }
+.product-card img {
+  width: 100%;
+  height: 200px; /* bisa ubah sesuai selera, misal 180px, 220px, dsb */
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+    .modal-content {
+      background: #0f172a;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 20px;
+    }
+
+    .modal-header {
+      border-bottom: 1px solid #00ffcc;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #00ffcc;
+    }
+  .modal-body img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+  .filter-btn.active {
+  background: #00ffcc;
+  color: #000;
+}
+  .search-futuristic {
+  max-width: 600px;
+  margin: 0 auto;
+  background: transparent;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  font-family: 'Orbitron', sans-serif;
+  border-radius: 12px;
+  padding: 12px 20px;
+  outline: none;
+  box-shadow: 0 0 15px #00ffcc44;
+  transition: all 0.3s ease;
+}
+
+.search-futuristic::placeholder {
+  color: #00ffccaa;
+}
+
+.search-futuristic:focus {
+  background: #0f172a;
+  box-shadow: 0 0 25px #00ffccaa;
+}
+
+.product-item {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+  @keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-item {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+  .search-icon {
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0.8;
+}
+  .animate {
+  animation: fadeInUp 0.5s ease forwards;
+}
+  #portal-loader {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #00ffcc22 0%, #0f172a 40%, #000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.portal-ring {
+  width: 120px;
+  height: 120px;
+  border: 4px dashed #00ffcc;
+  border-radius: 50%;
+  animation: portal-spin 1s linear infinite;
+  position: relative;
+  box-shadow: 0 0 30px #00ffcc88;
+}
+
+.portal-loader-inner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #00ffcc;
+  border-radius: 50%;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: orbit 1s linear infinite;
+}
+
+@keyframes portal-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbit {
+  0%   { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+#portal-loader.fade-out {
+  opacity: 0;
+  transform: scale(2);
+}
+  </style>
+</head>
+<body>
+  <div id="particles-js" style="position: fixed; z-index: -1; width: 100%; height: 100%; top: 0; left: 0;"></div>
+  <audio id="portalSound" src="https://cdn.pixabay.com/download/audio/2022/10/13/audio_14e7c09dc5.mp3?filename=magic-whoosh-portal-3-104973.mp3" preload="auto"></audio>
+<div id="portal-loader">
+  <div class="portal-ring">
+    <div class="portal-loader-inner"></div>
+  </div>
+</div>
+  <!-- Navbar Toggle Menu -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand text-uppercase text-info" href="#">Digital Alan Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
+          <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li>
+          <li class="nav-item"><a class="nav-link" href="#portofolio">Portofolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Produk Section -->
+  
+  <section id="produk" class="container py-5">
+    <h2 class="text-center mb-5">Produk Futuristik</h2>
+    <div class="text-center mb-4">
+      <div class="text-center mb-4">
+  <div class="position-relative d-flex justify-content-center mb-3">
+  <input type="text" id="searchInput" class="form-control search-futuristic pe-5" placeholder="Cari produk futuristik..." />
+  <span class="search-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#00ffcc" class="bi bi-search" viewBox="0 0 16 16">
+      <path d="M11 6a5 5 0 1 0-1 9.9V14l4.5 4.5.7-.7L11 14v-.1A5 5 0 0 0 11 6zM6 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+    </svg>
+  </span>
+</div>
+</div>
+  <button class="btn btn-futuristic filter-btn" data-filter="all">Semua</button>
+  <button class="btn btn-futuristic filter-btn" data-filter="aksesoris">Aksesoris</button>
+  <button class="btn btn-futuristic filter-btn" data-filter="elektronik">Elektronik</button>
+  <button class="btn btn-futuristic filter-btn" data-filter="fashion">Fashion</button>
+</div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 product-item" data-category="elektronik">
+        <div class="product-card p-3">
+          <img src="https://raw.githubusercontent.com/Mrmous3/Zulfidyah/main/IMG-20250520-WA0288.jpg" class="rounded mb-3" alt="Produk 1" />
+          <h5>Produk Futuristik 1</h5>
+          <p class="mb-3">Desain modern, cocok untuk era digital.</p>
+          <button class="btn btn-futuristic" data-bs-toggle="modal" data-bs-target="#detailProduk1">Lihat Detail</button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 product-item" data-category="elektronik">
+  <div class="product-card p-3">
+    <img src="https://raw.githubusercontent.com/Mrmous3/Zulfidyah/main/IMG-20250520-WA0280.jpg" class="rounded mb-3" alt="Produk 2" />
+    <h5>Produk Futuristik 2</h5>
+    <p class="mb-3">Teknologi mutakhir untuk masa depan.</p>
+    <button class="btn btn-futuristic" data-bs-toggle="modal" data-bs-target="#detailProduk2">Lihat Detail</button>
+  </div>
+</div>
+      <!-- Tambahkan lebih banyak produk di sini jika perlu -->
+    </div>
+  </section>
+
+  <!-- Modal Detail Produk -->
+  <div class="modal fade" id="detailProduk1" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="modal-header">
+          <h5 class="modal-title">Produk Futuristik 1</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <img src="https://raw.githubusercontent.com/Mrmous3/Zulfidyah/main/IMG-20250520-WA0288.jpg" class="img-fluid rounded mb-3" alt="Produk 1" />
+          <p>Produk ini dirancang untuk tampil maksimal di lingkungan digital futuristik. Dibuat dengan material premium, desain elegan, dan fitur unik.</p>
+        </div>
+        <div class="modal-footer">
+          <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20Produk%20Futuristik%201" target="_blank" class="btn btn-futuristic">
+            Beli Sekarang
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="detailProduk2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title">Produk Futuristik 2</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <img src="https://raw.githubusercontent.com/Mrmous3/Zulfidyah/main/IMG-20250520-WA0280.jpg" class="img-fluid rounded mb-3" alt="Produk 2" />
+        <p>Perangkat elektronik dengan fitur pintar dan desain futuristik yang menakjubkan.</p>
+      </div>
+      <div class="modal-footer">
+        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20Produk%20Futuristik%202" target="_blank" class="btn btn-futuristic">
+          Beli Sekarang
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Bootstrap Script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const productItems = document.querySelectorAll(".product-item");
+  const searchInput = document.getElementById("searchInput");
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const filter = button.getAttribute("data-filter");
+      
+      filterButtons.forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+      
+      filterAndSearch(filter, searchInput.value.toLowerCase());
+    });
+  });
+
+  searchInput.addEventListener("input", () => {
+    const activeFilter = document.querySelector(".filter-btn.active")?.getAttribute("data-filter") || "all";
+    filterAndSearch(activeFilter, searchInput.value.toLowerCase());
+  });
+
+  function filterAndSearch(filter, searchTerm) {
+  let visibleIndex = 0;
+  productItems.forEach(item => {
+    const category = item.getAttribute("data-category");
+    const title = item.querySelector("h5").textContent.toLowerCase();
+
+    const matchCategory = filter === "all" || category === filter;
+    const matchSearch = title.includes(searchTerm);
+
+    if (matchCategory && matchSearch) {
+      item.style.display = "block";
+      item.style.animationDelay = `${visibleIndex * 0.1}s`;
+      item.classList.add("animate");
+      visibleIndex++;
+    } else {
+      item.style.display = "none";
+      item.classList.remove("animate");
+    }
+  });
+}
+</script>
+  <script>
+  window.addEventListener('load', () => {
+    const portal = document.getElementById('portal-loader');
+    
+    setTimeout(() => {
+      portal.classList.add('fade-out');
+    }, 600);
+
+    setTimeout(() => {
+      portal.style.display = 'none';
+    }, 1000);
+  });
+  window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById("portalSound").play().catch(() => {});
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+particlesJS("particles-js", {
+  "particles": {
+    "number": { "value": 80 },
+    "color": { "value": "#00ffcc" },
+    "shape": {
+      "type": "circle"
+    },
+    "opacity": {
+      "value": 0.5,
+      "random": true
+    },
+    "size": {
+      "value": 3,
+      "random": true
+    },
+    "move": {
+      "enable": true,
+      "speed": 1,
+      "direction": "none",
+      "out_mode": "out"
+    }
+  },
+  "interactivity": {
+    "events": {
+      "onhover": { "enable": true, "mode": "repulse" },
+      "onclick": { "enable": true, "mode": "push" }
+    }
+  },
+  "retina_detect": true
+});
+</script>
+</body>
+  </html>
